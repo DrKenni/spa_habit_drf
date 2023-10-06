@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "andrey-fomichev-cw-7"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "andrey_fomichev_cw_7"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.6"
+psycopg2-binary = "^2.9.9"
+ipython = "^8.16.1"
+python-dotenv = "^1.0.0"
+djangorestframework = "^3.14.0"
+django-celery-beat = "^2.5.0"
+djangorestframework-simplejwt = "^5.3.0"
+drf-yasg = "^1.21.7"
+celery = "^5.3.4"
+requests = "^2.31.0"
+eventlet = "^0.33.3"
+redis = "^5.0.1"
+django-cors-headers = "^4.2.0"
+pillow = "^10.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

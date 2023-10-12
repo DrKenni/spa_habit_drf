@@ -1,6 +1,7 @@
+from django.conf import settings
 from django.db import models
 
-from users.models import NULLABLE, User
+from users.models import NULLABLE
 
 
 class Habit(models.Model):
@@ -11,9 +12,10 @@ class Habit(models.Model):
     linked = models.ForeignKey('self', verbose_name='связь с привычкой', on_delete=models.SET_NULL, **NULLABLE)
     reward = models.CharField(max_length=200, verbose_name='вознаграждение', **NULLABLE)
     length = models.PositiveSmallIntegerField(verbose_name='продолжительность в сукундах')
-    period = models.PositiveSmallIntegerField(verbose_name='переодичность')
+    period = models.PositiveSmallIntegerField(verbose_name='переодичность', **NULLABLE)
     is_public = models.BooleanField(default=False, verbose_name='публичность')
-    owner = models.ForeignKey(User, verbose_name='владелец', on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                              verbose_name='владелец', **NULLABLE,)
 
     def __str__(self):
         return f'Мне нужно {self.action} за {self.length} секунд, место: {self.place}'

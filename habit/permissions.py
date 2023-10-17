@@ -9,3 +9,12 @@ class IsOwner(BasePermission):
         if request.user == obj.owner:
             return True
         raise PermissionDenied(self.message)
+
+
+class IsModerator(BasePermission):
+    message = 'Вы не являетесь модератором'
+
+    def has_permission(self, request, view):
+        if request.user.is_staff:
+            return True
+        return False

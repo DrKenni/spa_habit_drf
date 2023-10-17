@@ -1,9 +1,8 @@
 from rest_framework import serializers
 
 from habit.models import Habit
-from habit.validators import validate_habit_period, validate_habit_length
+from habit.validators import validate_habit_length
 from users.models import User
-from users.serializers import UserSerializer
 
 
 class HabitSerializer(serializers.ModelSerializer):
@@ -33,15 +32,18 @@ class HabitSerializer(serializers.ModelSerializer):
 
 class HabitCreateUpdateSerializer(serializers.ModelSerializer):
     length = serializers.IntegerField(validators=[validate_habit_length])
-    period = serializers.IntegerField(validators=[validate_habit_period])
 
     def validate(self, attrs):
         if attrs:
             owner_id = self.context.get('request').user.id
             owner = User.objects.filter(id=owner_id).first()
             if owner.tg_username is None:
-                raise serializers.ValidationError(f"Чтобы создать привычку, нужно заполнить поле tg_username в профиле."
-                                                  f"Узнать его можно в Telegram -> Настройки -> Имя позьзователя")
+                raise serializers.ValidationError("Чтобы создать привычку, заполни поле tg_username в профиле."
+                                                  "Узнать его можно в Telegram -> Настройки -> Имя позьзователя")
+
+        if attrs.get('period') is not None:
+            if attrs.get('period') > 7:
+                raise serializers.ValidationError("Привычку нельзя выполнять реже 7 дней.")
 
         if attrs.get('is_pleasant'):
             if attrs.get('reward') or attrs.get('linked'):
@@ -58,7 +60,7 @@ class HabitCreateUpdateSerializer(serializers.ModelSerializer):
             habit_id = attrs.get('linked').id
             habit = Habit.objects.filter(id=habit_id).first()
             if habit.is_pleasant is False:
-                raise serializers.ValidationError("Связаной привычкой может быть только приятная привычка")
+                raise serializers.ValidationError("Связанной привычкой может быть только приятная привычка")
 
         return attrs
 

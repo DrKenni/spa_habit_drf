@@ -80,5 +80,4 @@ class HabitUpdateAPIView(UpdateAPIView):
 
     def perform_update(self, serializer):
         update_habit = serializer.save()
-        update_habit.task.delete()
         update_habit.save()

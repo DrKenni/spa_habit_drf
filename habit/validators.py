@@ -7,7 +7,3 @@ def validate_habit_length(value):
     return value
 
 
-def validate_habit_period(value):
-    if value > 7:
-        raise ValidationError("Привычку нельзя выполнять реже 7 дней.")
-    return value

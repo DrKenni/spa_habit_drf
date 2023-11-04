@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import status
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -39,6 +41,7 @@ class HabitCreateAPIView(CreateAPIView):
     def perform_create(self, serializer):
         new_habit = serializer.save()
         new_habit.owner = self.request.user
+        new_habit.last_time = datetime.now()
         new_habit.save()
 
     def get(self, request):

@@ -49,10 +49,10 @@ http://127.0.0.1:8000/docs/
 * Создать в проекте файл `.evn` и указать нужные данные из файла `.evn.sample`.
 ## `.evn`
 ```
-#Database
-DATABASES_PASSWORD=
-DATABASES_USER=
-DATABASES_NAME=
+# Database
+POSTGRES_PASSWORD=
+POSTGRES_USER=
+POSTGRES_DB=
 
 #Telegram
 TELEGRAM_TOKEN=
@@ -113,4 +113,23 @@ _Для тестирования проекта запустить команд�
 
 ```
 python manage.py test
+```
+### Запуск проекта в Docker:
+Необходимо создать файл .env и заполнить его согласно файлу .env.sample:
+```
+# Database
+POSTGRES_PASSWORD=
+POSTGRES_USER=
+POSTGRES_DB=
+
+#Telegram
+TELEGRAM_TOKEN=
+
+# Django settings
+SECRET_KEY=
+DEBUG=
+```
+Для создания образа из Dockerfile и запуска контейнера запустить команду:
+```
+docker-compose up --build
 ```
